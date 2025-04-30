@@ -20,5 +20,18 @@ pipeline {
                 '''
             }
         }
+        stage ('Test')
+        agent {
+            docker {
+                image 'node:18-alpine'
+                reuseNode true
+            }
+            steps {
+                sh '''
+                if [ -e build/index.html ]; then echo "Index.html exists"; fi
+                npm test
+                '''
+            }
+        }
     }
 }
